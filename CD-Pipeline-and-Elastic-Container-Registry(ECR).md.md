@@ -15,4 +15,5 @@ This Project provides step-by-step instructions on how to containerize a PHP app
 __Prerequisites__
 
 - A Jenkins server installed and configured. You can install Jenkins by following the official documentation - [jenkins.io](https://www.jenkins.io/doc/book/installing/)
+- Docker installed on the machine where Jenkins is running.
 - An AWS account with access to ECR.
