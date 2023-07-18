@@ -1,4 +1,4 @@
-## CONTAINERIZING A PHP APPLICATION USING JENKINS CI/CD PIPELINE, SORNAQUBE AND ELASTIC CONTAINER REGISTRY (ECR) USING TERRAFORM
+## CONTAINERIZING A PHP APPLICATION USING JENKINS CI/CD PIPELINE, SORNAQUBE AND ELASTIC CONTAINER REGISTRY (ECR).
 
 To deploy many small applications such as web front-end, web-backend, processing jobs, monitoring, logging solutions, etc, some of the applications will require various OS and runtimes of different versions and conflicting dependencies – in such case you would need to spin up serves for each group of applications with the exact OS/runtime/dependencies requirements. When it scales out to tens/hundreds and even thousands of applications, this approach becomes very tedious and challenging to maintain.
 
