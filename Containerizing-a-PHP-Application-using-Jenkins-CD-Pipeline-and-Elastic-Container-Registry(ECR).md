@@ -112,11 +112,11 @@ On the terminal, export the location of the SQL file
 
 `$ export DB_SCHEMA=/home/ubuntu/tooling-2/html/tooling_db_schema.sql`
 
-![](./images/1.PNG)
-![](./images/2.PNG)
-
 Use the SQL script to create the database and prepare the schema. With the __docker exec__ command, you can execute a command in a running container.
 `$ docker exec -i toolingdb mysql -u root -p$MYSQL_PW < $tooling_db_schema`
+
+![](./images/1.PNG)
+![](./images/2.PNG)
 
 __Build the Docker image for the Tooling Application__
 
