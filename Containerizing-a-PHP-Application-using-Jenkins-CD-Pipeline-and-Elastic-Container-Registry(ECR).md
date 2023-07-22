@@ -26,7 +26,15 @@ Sornaqube and Quality gates typically involve running various automated tests, s
 
 __For tooling__
 
-First, create a network:
+create an Ec2 Instance, install Docker and add the user to the docker group.
+
+`$ sudo usermod -aG docker ubuntu`
+
+Use the [docker documentation](https://docs.docker.com/engine/install/) to install docker.
+
+Log out and log in to effect the changes.
+
+Create a network:
 
 Creating a custom network is not necessary because even if we do not create a network, Docker will use the default network for all the containers you run. 
 There are use cases where this is necessary. If there is a requirement to control the __cidr__ range of the containers running the entire application stack. This will be an ideal situation to create a network and specify the __--subnet__
@@ -66,7 +74,7 @@ To verify whether an image has been successfully pulled and if the container is 
 
 Establishing remote connections to the MySQL server using the root user is discouraged to adhere to best security practices. Consequently, our approach involves crafting an SQL script to generate a new user specifically intended for remote connection purposes.
 
-Create a file and name it __create_user.sql__ and add the below code in the file:
+Create a file, name it __create_user.sql__ and add the below code in the file:
 
 `CREATE USER 'dybran'@'%' IDENTIFIED BY '<password>';`
 
@@ -91,3 +99,64 @@ Run the MySQL Client Container:
 `$ docker run --network tooling_app_network --name toolingdb-client -it --rm mysql mysql -h mysqlserverhost -u dybran -p`
 
 ![](./images/aqa.PNG)
+
+__Prepare database schema__
+
+Prepare a database schema so that the __Tooling application__ can connect.
+
+Clone the __Tooling-app repository__ [here](https://github.com/dybran/tooling-2).
+
+`$ git clone https://github.com/dybran/tooling-2.git` 
+
+On the terminal, export the location of the SQL file
+
+`$ export DB_SCHEMA=/home/ubuntu/tooling-2/html/tooling-db.sql`
+
+![](./images/1.PNG)
+![](./images/2.PNG)
+
+Use the SQL script to create the database and prepare the schema. With the __docker exec__ command, you can execute a command in a running container.
+`$ docker exec -i toolingdb mysql -u root -p$MYSQL_PW < $tooling_db_schema`
+
+__Build the Docker image for the Tooling Application__
+
+Write the Dockerfile
+
+![](./images/ddd.PNG)
+
+Make sure you sure in the directory that has the Dockerfile.
+i.e /home/ubuntu/tooling-2
+
+Then run the command
+
+`$ docker build -t tooling:1.0 .`
+
+![](./images/bu.PNG)
+
+Update the __.env__ file with connection details to the database.
+
+The __.env__ file is located in the html __tooling/html/.env__ folder but not visible in terminal.
+
+`$ cd tooling-2/html/.env`
+
+`$ sudo vi .env`
+
+![](./images/en.PNG)
+
+To get more information on the toolingdb container run the command
+
+`$ docker inpect toolingdb`
+
+![](./images/111.PNG)
+![](./images/112.PNG)
+
+We can use the above to find the __servername__ and so many other information about the container.
+
+Open the __db__conn.php__ file and update the credentials to connect to the tooling database.
+
+
+![](./images/up.PNG)
+
+Run the container
+
+`docker run --network tooling_app_network -p 8085:80 -it tooling:1.0`
