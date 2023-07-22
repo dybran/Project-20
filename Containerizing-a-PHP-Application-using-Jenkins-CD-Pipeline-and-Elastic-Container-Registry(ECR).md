@@ -110,7 +110,7 @@ Clone the __Tooling-app repository__ [here](https://github.com/dybran/tooling-2)
 
 On the terminal, export the location of the SQL file
 
-`$ export DB_SCHEMA=/home/ubuntu/tooling-2/html/tooling-db.sql`
+`$ export DB_SCHEMA=/home/ubuntu/tooling-2/html/tooling_db_schema.sql`
 
 ![](./images/1.PNG)
 ![](./images/2.PNG)
