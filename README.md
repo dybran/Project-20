@@ -1,2 +1,2 @@
 # Project-20
-Containerizing a PHP Application using Jenkins, Terraform and ECR.
+Building a Jenkins CI/CD pipeline with integrated Elastic Container Registry (ECR) for containerizing a PHP application and employing Terraform for infrastructure provisioning.
