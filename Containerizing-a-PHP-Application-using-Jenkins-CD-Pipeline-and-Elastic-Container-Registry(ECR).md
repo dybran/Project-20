@@ -145,7 +145,7 @@ The __.env__ file is located in the html __tooling/html/.env__ folder but not vi
 
 To get more information on the toolingdb container run the command
 
-`$ docker inpect toolingdb`
+`$ docker inspect toolingdb`
 
 ![](./images/111.PNG)
 ![](./images/112.PNG)
