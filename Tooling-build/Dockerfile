@@ -17,7 +17,7 @@ RUN chown -R www-data:www-data /var/www
 
 ENV MYSQL_IP=mysqlserverhost
 ENV MYSQL_USER=dybran
-ENV MYSQL_PASS=sa4la2xa
+ENV MYSQL_PASS=password
 ENV MYSQL_DBNAME=toolingdb
 
 CMD ["start-apache"]
