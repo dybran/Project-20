@@ -6,7 +6,7 @@ Also, when a developer develops an application and sends the application to anot
 
 __SOLUTION:__
 
-Containerization solves this problem. Unlike a VM, Docker allocates not the whole guest OS for your application, but only isolated minimal part of it – this isolated container has all that your application needs and at the same time is lighter, faster, and can be shipped as a Docker image to multiple physical or virtual environments, as long as this environment can run Docker engine. This approach also solves environment incompatibility issue.
+Containerization solves this problem. Unlike a VM, Docker allocates not the whole guest OS for your application, but only isolated minimal part of it – this isolated container has all that the application needs and at the same time is lighter, faster, and can be shipped as a Docker image to multiple physical or virtual environments, as long as this environment can run Docker engine. This approach also solves environment incompatibility issue.
 
 In other words, if an application is shipped as a container it has its own environment that is isolated, and it will always work the same way on any server that has Docker engine.
 
@@ -18,13 +18,15 @@ __Prerequisites__
 - Docker installed on the machine where Jenkins is running.
 - AWS CLI installed in the jenkins server.
 
-__Build the tooling and the PHP-todo Application manually__
+The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD with Terraform and PAcker for infrastructure and AMI build respectively, enabling the smooth deployment of the Docker image to Amazon Elastic Container Registry (ECR).
 
-First, we will proceed with manually building the Docker images for the application to make sure they work properly. Following this step, the CI/CD pipeline will be implemented, incorporating SonarQube and quality gate as a critical component within the pipeline for code analysis.
+__TASK__
 
-Sornaqube and Quality gates typically involve running various automated tests, such as unit tests, integration tests, security scans, performance tests, and code analysis, to assess the quality and stability of the codebase.
+- Create the AMI for Jenkins server using Packer
+- Provision the Infrastructure for ECR and Jenkins server using Terraform. The Jenkins server will be provisioned using the AMI created.
+- Configure Jenkins to build and push docker image to ECR.
 
-__For tooling__
+__Tooling Application__
 
 create an Ec2 Instance, install Docker and add the user to the docker group.
 
@@ -118,7 +120,7 @@ Use the SQL script to create the database and prepare the schema. With the __doc
 ![](./images/1.PNG)
 ![](./images/2.PNG)
 
-__Build the Docker image for the Tooling Application__
+__Containerizing the Tooling Application__
 
 Write the Dockerfile
 
@@ -154,9 +156,46 @@ We can use the above to find the __servername__ and so many other information ab
 
 Open the __db__conn.php__ file and update the credentials to connect to the tooling database.
 
-
 ![](./images/up.PNG)
+
+Environment variables are stored outside the codebase and are specific to the environment in which the application runs. The values are set on the server or in the hosting environment and are accessible by the PHP code using the _'$_ENV'__ superglobal array.
 
 Run the container
 
-`docker run --network tooling_app_network -p 8085:80 -it tooling:1.0`
+`docker run --network tooling_app_network -p 9080:80 -it -d tooling:1.0`
+
+![](./images/sad.PNG)
+
+Access the application through the browser
+
+`<Ip-address>:9080`
+
+![](./images/brow.PNG)
+
+Dsplay the running containers for the __tooling__ application and the __toolingdb__
+
+`$ docker ps`
+
+Stop the containers using the command
+
+`$ docker stop <container-id>`
+
+![](./images/qaw.PNG)
+
+To remove the network
+
+`$ docker network rm tooling_app_network`
+
+__Containerizing a PHP-Todo Application__
+
+Create a network for the application
+
+`$ docker network create --subnet=10.0.2.0/24 php_todo_network`
+
+Clone the repository- [php-todo app](https://github.com/dybran/php-todo) and `cd`
+
+`$ git clone https://github.com/dybran/php-todo.git`
+
+`cd php-todo`
+
+![](./images/adv.PNG)

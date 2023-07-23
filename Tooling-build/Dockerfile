@@ -15,7 +15,7 @@ RUN a2enmod rewrite
 COPY html /var/www
 RUN chown -R www-data:www-data /var/www
 
-ENV MYSQL_IP=db
+ENV MYSQL_IP=mysqlserverhost
 ENV MYSQL_USER=dybran
 ENV MYSQL_PASS=sa4la2xa
 ENV MYSQL_DBNAME=toolingdb
