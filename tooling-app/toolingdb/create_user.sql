@@ -1,2 +1,2 @@
-CREATE USER 'dybran'@'%' IDENTIFIED BY 'sa4la2xa'; 
+CREATE USER 'dybran'@'%' IDENTIFIED BY 'password'; 
 GRANT ALL PRIVILEGES ON * . * TO 'dybran'@'%';

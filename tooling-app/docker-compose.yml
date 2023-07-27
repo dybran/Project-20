@@ -1,5 +1,14 @@
 version: '2.20'
 services:
+  toolingapp:
+    build:
+      context: .
+    image: dybran/toolingapp
+    ports:
+      - "80:80"
+    depends_on:
+      - toolingdb
+
   toolingdb:
     build:
       context: ./toolingdb
@@ -10,14 +19,6 @@ services:
       - volume-toolingdb:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
-
-
-  toolingapp:
-    build:
-      context: .
-    image: dybran/toolingapp
-    ports:
-      - "80:80"
 
 
 

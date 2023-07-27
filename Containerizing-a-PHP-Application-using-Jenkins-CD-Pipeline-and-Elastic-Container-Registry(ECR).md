@@ -76,7 +76,7 @@ To verify whether an image has been successfully pulled and if the container is 
 
 ![](./images/ad.PNG)
 
-Establishing remote connections to the MySQL server using the root user is discouraged to adhere to best security practices. Consequently, our approach involves crafting an SQL script to generate a new user specifically intended for remote connection purposes.
+To adhere to best security practices, it is not recommended to establish remote connections to the MySQL server using the root user. Therefore, we adopt an alternative approach by creating an SQL script that generates a new user exclusively for remote connection purposes. This helps enhance the overall security of the system.
 
 Create a file, name it __create_user.sql__ and add the below code in the file:
 
