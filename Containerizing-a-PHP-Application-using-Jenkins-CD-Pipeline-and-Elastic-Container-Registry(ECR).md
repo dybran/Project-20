@@ -188,16 +188,67 @@ To remove the network
 
 `$ docker network rm tooling_app_network`
 
-__Containerizing a PHP-Todo Application__
+__Docker Compose__
 
-Create a network for the application
+Docker Compose is a tool provided by Docker that allows you to define and manage multi-container Docker applications. It simplifies the process of running multiple interconnected Docker containers as a single unit, enabling you to set up complex application architectures with ease.
 
-`$ docker network create --subnet=10.0.2.0/24 php_todo_network`
+With Docker Compose, you can define your application's services, networks, and volumes in a single YAML file called docker-compose.yml. This file typically resides in the root directory of your project.
 
-Clone the repository- [php-todo app](https://github.com/dybran/php-todo) and `cd`
+To set up the docker compose use this [link](https://docs.docker.com/compose/install/linux/).
 
-`$ git clone https://github.com/dybran/php-todo.git`
+![](./images/dcy.PNG)
+![](./images/qaa.PNG)
 
-`cd php-todo`
+Create a directory __toolingdb__ put the __create_user.sql__,   __tooling_db_schema.sql__ and the __Dockerfile__ for the toolingdb.
 
-![](./images/adv.PNG)
+![](./images/dbb.PNG)
+
+Write a Dockerfile for the toolingdb
+
+```
+FROM mysql:latest
+LABEL "Project"="tooling"
+LABEL "Author"="Solomon Onwuasoanya"
+LABEL "Description"="Building the tooling app"
+
+ENV MYSQL_ROOT_PASSWORD="password"
+
+ADD create_user.sql docker-entrypoint-initdb.d/create_user.sql
+ADD tooling_db_schema.sql docker-entrypoint-initdb.d/tooling_db_schema.sql
+```
+
+Reading the documentation of image selected from DockerHub, we can determine the appropriate location within the container filesystem to place our scripts for execution. Read the [documentation](https://hub.docker.com/_/mysql).
+
+![](./images/initi.PNG)
+
+Create a __docker-compose.yml__ file in the __tooling__
+
+```
+version: '2.20'
+services:
+  toolingdb:
+    build:
+      context: ./toolingdb
+    image: dybran/toolingdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - volume-toolingdb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+
+  toolingapp:
+    build:
+      context: .
+    image: dybran/toolingapp
+    ports:
+      - "80:80"
+
+
+volumes:
+  volume-toolingdb: {}
+```
+
+![](./images/dcre.PNG)
+
