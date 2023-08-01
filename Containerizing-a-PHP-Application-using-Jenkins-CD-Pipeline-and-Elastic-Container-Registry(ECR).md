@@ -190,3 +190,36 @@ To remove the network
 
 __PROVISIONING THE INFRASTRUCTURE USING TERRAFORM__
 
+`cd` into the AMI directory and build the jenkins AMI using packer
+
+`$ packer build jenkins-docker.pkr.hcl`
+
+![](./images/parker.PNG)
+
+![](./images/amii.PNG)
+
+Copy the AMI and update the __terraform.auto.vars__
+
+![](./images/p2.PNG)
+
+![](./images/p3.PNG)
+
+Migrate the terraform codes to terraform cloud
+
+To understand the process of migrating Terraform codes to the cloud, please make reference to [Project 19](https://github.com/dybran/Project-19/blob/main/Project-19.md).
+
+`plan` and `apply`
+
+![](./images/p-a.PNG)
+
+The resources are created.
+
+![](./images/0.PNG)
+![](./images/9.PNG)
+![](./images/8.PNG)
+
+Establish an SSH connection to the Jenkins server and proceed with the configuration adjustments required to enable the build and push functionalities to the Elastic Container Registry (ECR)
+
+`$ sudo systemctl start jenkins`
+`$ sudo systemctl enable jenkins`
+

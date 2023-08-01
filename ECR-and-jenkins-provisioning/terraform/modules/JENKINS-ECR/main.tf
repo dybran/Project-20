@@ -16,10 +16,5 @@ resource "aws_instance" "Jenkins" {
 }
 
 resource "aws_ecr_repository" "tooling_ecr" {
-  tags = merge(
-    var.tags,
-    {
-      Name = "tooling-ECR"
-    },
-  )
+  name = "tooling-ecr"
 }

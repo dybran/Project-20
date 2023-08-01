@@ -3,7 +3,7 @@ terraform {
     organization = "narbyd"
 
     workspaces {
-      name = "narbyd-terraform-cloud"
+      name = "tooling-terraform-cloud"
     }
   }
 }

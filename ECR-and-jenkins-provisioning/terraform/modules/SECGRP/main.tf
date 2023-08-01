@@ -1,8 +1,5 @@
 # create all security groups dynamically
 resource "aws_security_group" "jenkins-sg" {
-  for_each    = local.security_groups
-  name        = each.value.name
-  description = each.value.description
   vpc_id      = var.vpc_id
 
  
@@ -16,7 +13,7 @@ resource "aws_security_group" "jenkins-sg" {
   tags = merge(
     var.tags,
     {
-      Name = each.value.name
+      Name = "jenkins-sg"
     },
   )
 }

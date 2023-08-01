@@ -9,7 +9,7 @@ output "public_subnets-1" {
 # }
 
 output "vpc_id" {
-  value = aws_vpc.jenkins-vpc.id
+  value = aws_vpc.tooling-vpc.id
 }
 
 

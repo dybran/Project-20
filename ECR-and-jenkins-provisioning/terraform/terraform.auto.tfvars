@@ -12,7 +12,7 @@ preferred_number_of_public_subnets = 1
 
 environment = "dev"
 
-ami-jenkins = "ami-08e23dd3eabdf7456"
+ami-jenkins = "ami-06dc34ce7aeed3757"
 
 keypair = "dybran-ec2"
 
