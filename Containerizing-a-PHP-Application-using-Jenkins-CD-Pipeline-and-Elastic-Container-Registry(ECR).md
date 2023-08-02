@@ -198,7 +198,7 @@ __PROVISIONING THE INFRASTRUCTURE USING TERRAFORM__
 
 ![](./images/amii.PNG)
 
-Copy the AMI and update the __terraform.auto.vars__
+Write the terraform script to provision the infrastructure and update the __terraform.auto.vars__ with the endpoint of the AMI. You can access the terraform code [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
 
 ![](./images/p2.PNG)
 
