@@ -42,7 +42,6 @@ sudo unzip awscliv2.zip
 sudo ./aws/install
 aws --version
 
-# # start & enable jenkins
-# sudo systemctl start jenkins
-# sudo systemctl enable jenkins
-
+# start & enable jenkins
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
