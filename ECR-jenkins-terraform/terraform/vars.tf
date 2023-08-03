@@ -2,7 +2,7 @@ variable REGION {
   default = "us-east-1"
 }
 
-variable ZONE1 {
+variable ZONE {
   default = "us-east-1a"
 }
 
@@ -19,11 +19,11 @@ variable USER {
 }
 
 variable PUB_KEY {
-  default = "jenkins-ec2.pub"
+  default = "../../jenkins.pub"
 }
 
 variable PRIV_KEY {
-  default = "jenkins-ec2"
+  default = "../../jenkins"
 }
 
 variable MYIP {

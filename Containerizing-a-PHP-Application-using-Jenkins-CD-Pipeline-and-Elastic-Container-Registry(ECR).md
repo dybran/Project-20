@@ -188,15 +188,7 @@ To remove the network
 
 `$ docker network rm tooling_app_network`
 
-__PROVISIONING THE INFRASTRUCTURE USING TERRAFORM__
-
-`cd` into the AMI directory and build the jenkins AMI using packer
-
-`$ packer build jenkins-docker.pkr.hcl`
-
-![](./images/parker.PNG)
-
-![](./images/amii.PNG)
+__PROVISIONING THE INFRASTRUCTURE USING PULUMI__
 
 Write the terraform script to provision the infrastructure and update the __terraform.auto.vars__ with the endpoint of the AMI. You can access the terraform code [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
 

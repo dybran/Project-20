@@ -8,13 +8,13 @@ resource "aws_vpc" "tooling" {
   }
 }
 
-resource "aws_subnet" "jenkins-pub" {
-  vpc_id                  = aws_vpc.jenkins.id
+resource "aws_subnet" "tooling-pub" {
+  vpc_id                  = aws_vpc.tooling.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = var.ZONE1
+  availability_zone       = var.ZONE
   tags = {
-    Name = "jenkins-pub"
+    Name = "tooling-pub"
   }
 }
 

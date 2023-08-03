@@ -1,0 +1,265 @@
+from pulumi import export, ResourceOptions
+import pulumi_aws as aws
+import json
+import pulumi
+from pulumi import Config, Output
+
+# Create an ECS cluster to run a container-based service.
+cluster = aws.ecs.Cluster('cogito-cluster')
+
+
+# create ECR repository
+repository = aws.ecr.Repository("cogito-repo")
+
+# Assign an existing keypair
+keypair_name = 'dybran-ec2'
+
+# Create a SecurityGroup that permits HTTP and SSH ingress and unrestricted egress.
+ec2_group = aws.ec2.SecurityGroup('jenkins-secgrp',
+	# vpc_id=vpc.id,
+	description='Enable HTTP access',
+	ingress=[
+		aws.ec2.SecurityGroupIngressArgs(
+			protocol='tcp',
+			from_port=22,
+			to_port=22,
+			cidr_blocks=['0.0.0.0/0'],
+			description="SSH access",
+	    ),
+	    aws.ec2.SecurityGroupIngressArgs(
+			protocol='tcp',
+			from_port=8080,
+			to_port=8080,
+			cidr_blocks=['0.0.0.0/0'],
+			description="Http access",
+	    ),
+	],
+  	egress=[aws.ec2.SecurityGroupEgressArgs(
+		protocol='-1',
+		from_port=0,
+		to_port=0,
+		cidr_blocks=['0.0.0.0/0'],
+	)],
+	tags={"Name": "jenkins-secgrp"},
+)
+
+
+# Load script from file
+with open('setup.sh', 'r') as file:
+    user_data = file.read()
+
+
+# Get Ubuntu Server 20.04 LTS image
+ami = aws.ec2.get_ami(
+    most_recent="true",
+    owners=["099720109477"], # Canonical
+    filters=[
+        aws.ec2.GetAmiFilterArgs(
+            name="name",
+            values=["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"],
+        ),
+        aws.ec2.GetAmiFilterArgs(
+            name="virtualization-type",
+            values=["hvm"],
+        ),
+    ],
+)
+
+
+# Create an IAM role for the jenkins server.
+role = aws.iam.Role('jenkins-role',
+	assume_role_policy=json.dumps({
+		'Version': '2008-10-17',
+		'Statement': [{
+			'Sid': '',
+			'Effect': 'Allow',
+			'Principal': {
+				'Service': 'ec2.amazonaws.com'
+			},
+			'Action': 'sts:AssumeRole',
+		}]
+	}),
+)
+
+rpa = aws.iam.RolePolicyAttachment('jenkins-policy',
+	role=role.name,
+	policy_arn='arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess',
+)
+
+# Create the Instance Profile
+instance_profile = aws.iam.InstanceProfile("exampleInstanceProfile", role=role.name)
+
+
+# create EC2 instance for Jenkins server
+server = aws.ec2.Instance('jenkins-server', 
+        instance_type='t2.micro',
+        security_groups=[ec2_group.name],
+        ami=ami.id,
+		key_name=keypair_name,
+		# ami="ami-0c86820b82cbbe776",  # please replace with your AMI
+        iam_instance_profile=instance_profile.name,
+        user_data=user_data,
+		tags={"Name": "jenkins-server"},
+)
+
+
+vpc = aws.ec2.Vpc(
+    "cogito-vpc",
+    cidr_block="10.0.0.0/16",
+    enable_dns_support=True,
+    enable_dns_hostnames=True,
+    tags={"Name": "cogito-vpc"},
+)
+
+# Create 2 subnets in different Availability Zones
+subnet1 = aws.ec2.Subnet('subnet-1',
+    vpc_id=vpc.id,
+    availability_zone='us-east-1a',  
+    cidr_block='10.0.1.0/24',       
+	tags={"Name": "cogito-sub1"},
+)
+
+subnet2 = aws.ec2.Subnet('subnet-2',
+    vpc_id=vpc.id,
+    availability_zone='us-east-1b',  
+    cidr_block ='10.0.2.0/24',      
+	tags={"Name": "cogito-sub2"},
+)
+
+# Create an Internet Gateway and attach it to the VPC
+internet_gateway = aws.ec2.InternetGateway("cogito-igw",
+    vpc_id=vpc.id,
+	tags={"Name": "cogito-IGw"},
+)
+
+
+
+# Associate the Internet Gateway with the Public Subnet
+public_route_table = aws.ec2.RouteTable("public-route-table",
+    vpc_id=vpc.id,
+    routes=[
+        aws.ec2.RouteTableRouteArgs(
+            cidr_block="0.0.0.0/0",
+            gateway_id=internet_gateway.id
+        )
+    ]
+)
+
+aws.ec2.RouteTableAssociation("public-association",
+    route_table_id=public_route_table.id,
+    subnet_id=subnet1.id
+)
+
+
+# Create a SecurityGroup that permits HTTP ingress and unrestricted egress.
+group = aws.ec2.SecurityGroup('web-secgrp',
+	vpc_id=vpc.id,
+	description='Enable HTTP access',
+	ingress=[aws.ec2.SecurityGroupIngressArgs(
+		protocol='tcp',
+		from_port=80,
+		to_port=80,
+		cidr_blocks=['0.0.0.0/0'],
+	)],
+  	egress=[aws.ec2.SecurityGroupEgressArgs(
+		protocol='-1',
+		from_port=0,
+		to_port=0,
+		cidr_blocks=['0.0.0.0/0'],
+		
+	)],
+	tags={"Name": "web-secgrp"},
+)
+
+# Create a load balancer to listen for HTTP traffic on port 80.
+alb = aws.lb.LoadBalancer('app-lb',
+	security_groups=[group.id],
+	subnets=[subnet1.id, subnet2.id]
+)
+
+atg = aws.lb.TargetGroup('app-tg',
+	port=80,
+	protocol='HTTP',
+	target_type='ip',
+	vpc_id=vpc.id,
+)
+
+wl = aws.lb.Listener('web',
+	load_balancer_arn=alb.arn,
+	port=80,
+	default_actions=[aws.lb.ListenerDefaultActionArgs(
+		type='forward',
+		target_group_arn=atg.arn,
+	)],
+)
+
+# Create an IAM role that can be used by our service's task.
+role = aws.iam.Role('task-exec-role',
+	assume_role_policy=json.dumps({
+		'Version': '2008-10-17',
+		'Statement': [{
+			'Sid': '',
+			'Effect': 'Allow',
+			'Principal': {
+				'Service': 'ecs-tasks.amazonaws.com'
+			},
+			'Action': 'sts:AssumeRole',
+		}]
+	}),
+)
+
+rpa = aws.iam.RolePolicyAttachment('task-exec-policy',
+	role=role.name,
+	policy_arn='arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
+)
+
+
+# Spin up a load balanced service running our container image.
+containers=[{
+    'name': 'cogito-app',
+    'image': image.image_name,
+    'portMappings': [{
+        'containerPort': 80,
+        'hostPort': 80,
+        'protocol': 'tcp'
+    }]
+}]
+
+# Task definition
+task_definition = aws.ecs.TaskDefinition('app-task',
+    family='fargate-task-definition',
+    cpu='256',
+    memory='512',
+    network_mode='awsvpc',
+    requires_compatibilities=['FARGATE'],
+    execution_role_arn=role.arn,
+    container_definitions=pulumi.Output.from_input(containers).apply(lambda c: json.dumps(c))
+)
+
+service = aws.ecs.Service('app-svc',
+	cluster=cluster.arn,
+    desired_count=3,
+    launch_type='FARGATE',
+    task_definition=task_definition.arn,
+    network_configuration=aws.ecs.ServiceNetworkConfigurationArgs(
+		assign_public_ip=True,
+		subnets=[subnet1.id, subnet2.id],
+		security_groups=[group.id],
+	),
+    load_balancers=[aws.ecs.ServiceLoadBalancerArgs(
+		target_group_arn=atg.arn,
+		container_name='my-app',
+		container_port=80,
+	)],
+    opts=ResourceOptions(depends_on=[wl]),
+)
+
+
+
+# Exports outputs
+pulumi.export('public_ip', server.public_ip)
+pulumi.export('ami_id', ami.id)
+pulumi.export('repositoryUrl', repository.repository_url)
+pulumi.export('baseImageName', image.base_image_name)
+pulumi.export('fullImageName', image.image_name)
+pulumi.export('url', alb.dns_name)

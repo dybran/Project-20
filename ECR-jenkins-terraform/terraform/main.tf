@@ -6,13 +6,18 @@ resource "aws_key_pair" "jenkins-key" {
 resource "aws_instance" "jenkins-instance" {
   ami                    = var.AMIS[var.REGION]
   instance_type          = "t2.micro"
-  availability_zone      = var.ZONE1
+  availability_zone      = var.ZONE
   key_name               = aws_key_pair.jenkins-key.key_name
-  subnet_id              = aws_subnet.jenkins-pub.id
+  subnet_id              = aws_subnet.tooling-pub.id
   vpc_security_group_ids = [aws_security_group.jenkins-sg.id]
   tags = {
-    Name    = "tooling"
-    Project = "Project-tooling"
+    Name    = "Jenkins-docker"
+    Project = "tooling"
+  }
+
+  provisioner "local-exec" {
+    command = "Start-Sleep -Seconds 300"  # Sleep for 2 minutes (adjust as needed)
+    interpreter = ["PowerShell", "-Command"]
   }
 
   provisioner "file" {
@@ -34,20 +39,16 @@ resource "aws_instance" "jenkins-instance" {
   }
 }
 
-resource "aws_ebs_volume" "vol-dybran" {
-  availability_zone = var.ZONE1
-  size              = 3
-  tags = {
-    Name = "dybran-extra-vol"
-  }
+resource "aws_ecr_repository" "ecr_repo" {
+  name = "ecr-repo"  
 }
 
-resource "aws_volume_attachment" "attach-vol-dybran" {
-  device_name = "/dev/xvdh"
-  volume_id   = aws_ebs_volume.vol-dybran.id
-  instance_id = aws_instance.dybran-instance.id
-}
-
+# outputs
 output "PublicIP" {
   value = aws_instance.jenkins-instance.public_ip
+}
+
+
+output "ecr_repository_url" {
+  value = aws_ecr_repository.ecr_repo.repository_url
 }

@@ -1,7 +1,7 @@
 resource "aws_security_group" "jenkins-sg" {
   name        = "tooling-prj-sg"
   description = "sec group for jenkins ssh"
-  vpc_id      = aws_vpc.jenkins.id
+  vpc_id      = aws_vpc.tooling.id
 
   ingress {
     from_port   = 22
