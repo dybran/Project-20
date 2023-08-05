@@ -1,31 +1,58 @@
-variable REGION {
+variable "region" {
   default = "us-east-1"
 }
 
-variable ZONE {
-  default = "us-east-1a"
+variable "vpc_cidr" {
+  default = "172.16.0.0/16"
 }
 
-variable AMIS {
-  type = map(any)
-  default = {
-    us-east-1 = "ami-03951dc3553ee499f"
-    us-east-2 = "ami-06ad5df4b191f59d0"
-  }
+variable "enable_dns_support" {
+  default = "true"
 }
 
-variable USER {
-  default = "ec2-user"
+variable "enable_dns_hostnames" {
+  default = "true"
 }
 
-variable PUB_KEY {
-  default = "../../jenkins.pub"
+variable "enable_classiclink" {
+  default = "false"
 }
 
-variable PRIV_KEY {
-  default = "../../jenkins"
+variable "preferred_number_of_public_subnets" {
+  type        = number
+  description = "Number of public subnets"
 }
 
-variable MYIP {
-  default = "192.168.33.107/32"
+variable "name" {
+  type    = string
+  default = "tooling"
+
 }
+
+variable "tags" {
+  description = "A mapping of tags to assign to all resources."
+  type        = map(string)
+  default     = {}
+}
+
+variable "environment" {
+  type        = string
+  description = "Enviroment"
+}
+
+variable "ami-jenkins" {
+  type        = string
+  description = "AMI ID for the launch template"
+}
+
+variable "keypair" {
+  type        = string
+  description = "key pair for the instances"
+}
+
+variable "account_no" {
+  type        = number
+  description = "the account number on aws"
+}
+
+

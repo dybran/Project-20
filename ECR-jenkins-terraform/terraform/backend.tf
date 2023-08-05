@@ -1,7 +1,10 @@
 terraform {
-	backend "s3" {
-	bucket = "tooling"
-	key = "tooling-terrastate/backend_s3"
-	region = "us-east-1"
-	}
+  backend "remote" {
+    organization = "narbyd"
+
+    workspaces {
+      name = "tooling-terraform-cloud"
+    }
+  }
 }
+
