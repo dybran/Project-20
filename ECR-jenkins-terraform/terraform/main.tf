@@ -24,6 +24,6 @@ module "JENKINS-ECR" {
   source          = "./modules/JENKINS-ECR"
   ami-jenkins     = var.ami-jenkins
   subnets-jenkins = module.VPC.public_subnet
-  sg-jenkins    =   module.SECGRP.jenkins-sg
+  sg-jenkins    =   [module.SECGRP.jenkins-sg]
   keypair         = var.keypair
 }

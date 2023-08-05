@@ -77,7 +77,7 @@ pipeline {
                 sh "docker build --network=host -t $IMAGE ."
                 docker.withRegistry("https://$ECRURL"){
                 docker.image("$IMAGE").push("dev-$BUILD_NUMBER")
-            }
+                }
             }
         }
       }
