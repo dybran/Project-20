@@ -1,18 +1,9 @@
-output "public_subnets-1" {
+output "public_subnet" {
   value       = aws_subnet.public[0].id
-  description = "public subnet 1"
+  description = "public subnet"
 }
 
-# output "public_subnets-2" {
-#   value       = aws_subnet.public[1].id
-#   description = "public subnet 2"
-# }
 
 output "vpc_id" {
   value = aws_vpc.tooling-vpc.id
 }
-
-
-# output "instance_profile" {
-#   value = aws_iam_instance_profile.ip.id
-# }

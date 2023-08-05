@@ -190,7 +190,7 @@ To remove the network
 
 __PROVISIONING THE INFRASTRUCTURE USING PULUMI__
 
-Write the terraform script to provision the infrastructure and update the __terraform.auto.vars__ with the endpoint of the AMI. You can access the terraform code [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
+Write the pulumi script to provision the infrastructure and update the script with the endpoint of the AMI. You can access the pulumi code [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
 
 ![](./images/p2.PNG)
 

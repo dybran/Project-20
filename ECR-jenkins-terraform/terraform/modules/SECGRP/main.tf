@@ -1,6 +1,4 @@
-# create all security groups dynamically
-
-
+# create jenkins security group
 resource "aws_security_group" "jenkins-http-ssh-sg" {
   vpc_id      = var.vpc_id
   name        = "jenkins-sg"
