@@ -6,6 +6,14 @@ variable "vpc_cidr" {
   default = "172.16.0.0/16"
 }
 
+variable "subnet_cidr" {
+  default = "172.16.1.0/24"
+}
+
+variable "zone" {
+  default = "us-east-1a"
+}
+
 variable "enable_dns_support" {
   default = "true"
 }
@@ -14,14 +22,9 @@ variable "enable_dns_hostnames" {
   default = "true"
 }
 
-variable "enable_classiclink" {
-  default = "false"
-}
-
-variable "preferred_number_of_public_subnets" {
-  type        = number
-  description = "Number of public subnets"
-}
+# variable "enable_classiclink" {
+#   default = "false"
+# }
 
 variable "name" {
   type    = string

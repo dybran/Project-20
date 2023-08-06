@@ -11,27 +11,41 @@ resource "aws_vpc" "tooling-vpc" {
   )
 }
 
-# Get list of availability zones
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
-# Create public subnets
-resource "aws_subnet" "public" {
-  count                   = var.preferred_number_of_public_subnets == null ? length(data.aws_availability_zones.available.names) : var.preferred_number_of_public_subnets
+# Create subnet
+resource "aws_subnet" "tooling_subnet" {
   vpc_id                  = aws_vpc.tooling-vpc.id
-  cidr_block              = var.public_subnets[count.index]
-  map_public_ip_on_launch = true
-  availability_zone       = data.aws_availability_zones.available.names[count.index]
-
-
+  cidr_block              = var.subnet_cidr
+  availability_zone      = var.zone
+  map_public_ip_on_launch = true         
 
   tags = merge(
     var.tags,
     {
-      Name = format("%s-pub-sub-%s", var.name, count.index)
+      Name = format("%s-pubsubnet", var.name)
     },
   )
 
 }
+
+# create and associaote route table
+resource "aws_route_table" "tooling_route_table" {
+  vpc_id = aws_vpc.tooling-vpc.id
+}
+
+resource "aws_route" "tooling_route" {
+  route_table_id         = aws_route_table.tooling_route_table.id
+  destination_cidr_block = "0.0.0.0/0" 
+  gateway_id             = aws_internet_gateway.tooling-ig.id
+}
+
+resource "aws_route_table_association" "tooling_association" {
+  subnet_id      = aws_subnet.tooling_subnet.id
+  route_table_id = aws_route_table.tooling_route_table.id
+}
+
+
+
+
+
+
 

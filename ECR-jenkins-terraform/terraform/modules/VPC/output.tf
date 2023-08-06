@@ -1,5 +1,5 @@
 output "public_subnet" {
-  value       = aws_subnet.public[0].id
+  value       = aws_subnet.tooling_subnet.id
   description = "public subnet"
 }
 
@@ -7,3 +7,4 @@ output "public_subnet" {
 output "vpc_id" {
   value = aws_vpc.tooling-vpc.id
 }
+

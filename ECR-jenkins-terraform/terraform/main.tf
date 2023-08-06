@@ -5,9 +5,9 @@ module "VPC" {
   vpc_cidr                            = var.vpc_cidr
   enable_dns_support                  = var.enable_dns_support
   enable_dns_hostnames                = var.enable_dns_hostnames
-  enable_classiclink                  = var.enable_classiclink
-  preferred_number_of_public_subnets  = var.preferred_number_of_public_subnets
-  public_subnets                      = [for i in range(2, 5, 2) : cidrsubnet(var.vpc_cidr, 8, i)]
+  # enable_classiclink                  = var.enable_classiclink
+  subnet_cidr                         = var.subnet_cidr
+  zone                                = var.zone
 }
 
 
