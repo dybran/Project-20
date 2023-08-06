@@ -311,4 +311,22 @@ Follow the prompt to set up the pulumi project.
 ![](./images/pul.PNG)
 ![](./images/pul2.PNG)
 
-Open __main.py__ and write the pulumi code for provisioning the infrastructure.
+Open __main.py__ and write the pulumi code for provisioning the infrastructure and also provisioning the Jenkins server using the provided script. The script:
+- installs java and jenkins
+- Installs Docker
+- Installs aws cli
+- Adds jenkins and Ubuntu to the docker group
+
+Then run the command
+
+`$ pulumi up`
+
+Select the option labeled __"Yes"__ to indicate your agreement with the allocation of resources for provisioning.
+
+![](./images/pp1.PNG)
+![](./images/pp2.PNG)
+
+We can also use the link provided to see the provisioning in the pulumi console.
+![](./images/qqaa.PNG)
+
+![](./images/plink.PNG)
