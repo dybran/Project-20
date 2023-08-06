@@ -188,9 +188,83 @@ To remove the network
 
 `$ docker network rm tooling_app_network`
 
-__PROVISIONING THE INFRASTRUCTURE USING PULUMI__
+__AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
 
-Write the pulumi script to provision the infrastructure and update the script with the endpoint of the AMI. You can access the pulumi code [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
+I will undertake the provisioning of the infrastructure through the utilization of __Terraform__. Additionally, I will demonstrate the provisioning process utilizing __Pulumi__, affording you the flexibility to select either of these Infrastructure as Code (IAC) tools.
+
+__Provisioning the Infrastructure using Terraform__
+
+First, we build the AMI by utilizing the `jenkins-docker.sh` script, to prepare an AMI for the jenkins server.
+
+```
+#!/bin/bash
+
+# The jenkins & docker shell script that will run on instance initialization
+
+
+# Install jenkins and java
+sudo apt-get update
+sudo apt install openjdk-17-jre -y
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins -y
+
+
+# Install docker
+sudo apt-get install ca-certificates curl gnupg -y
+
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+
+# Add ubuntu & Jenkins to the Docker group
+sudo usermod -aG docker ubuntu
+sudo usermod -aG docker jenkins
+
+# run docker test container 
+sudo docker run hello-world
+
+# install aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
+sudo apt install unzip
+sudo unzip awscliv2.zip  
+sudo ./aws/install
+aws --version
+
+# start & enable jenkins
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+```
+The above script:
+- installs java and jenkins
+- Installs Docker
+- Installs aws cli
+- Adds jenkins and Ubuntu to the docker group
+
+__N/B:__ Always refer to the documentation of the [jenkins](https://www.jenkins.io/doc/book/installing/linux/) and [Docker](https://docs.docker.com/engine/install/ubuntu/).
+
+Run the command
+
+`$ cd AMI`
+
+`$ Packer build jenkins-docker.pkr.hcl`
+
+ followed by the modification of the Terraform script to incorporate the AMI's endpoint information. AMI code is accessible [here](https://github.com/dybran/Project-20/tree/main/ECR-jenkins-terraform/AMI)
+
+Compose the Terraform script for infrastructure provisioning, and subsequently integrate the AMI's endpoint details into the __terraform.auto.tfvars__. The Terraform code is accessible at [here](https://github.com/dybran/Project-20/tree/main/ECR-and-jenkins-provisioning/terraform).
 
 ![](./images/p2.PNG)
 
@@ -215,3 +289,26 @@ Establish an SSH connection to the Jenkins server and proceed with the configura
 `$ sudo systemctl start jenkins`
 `$ sudo systemctl enable jenkins`
 
+__Provisioning the Infrastructure using Pulumi__
+
+Provisioning infrastructure using Pulumi involves using code to define and manage cloud resources across various cloud providers like AWS, Azure, Google Cloud, and others. Pulumi allows you to define your infrastructure as code (IaC) using your preferred programming language, such as JavaScript, TypeScript, Python, Go, and more.
+
+
+__Install Pulumi:__
+
+Start by installing Pulumi on your development machine. You can find installation instructions for your specific operating system on the Pulumi website. Click [here](https://www.pulumi.com/docs/install/).
+
+Open a terminal and create a new directory. Navigate to that directory and run the following command to create a new Pulumi project:
+
+`$ pulumi new <template>`
+
+Replace <template> with the appropriate template for your chosen programming language and cloud provider. For example, to create a new python project for AWS, you would run:
+
+`$ pulumi new aws-python`
+
+Follow the prompt to set up the pulumi project.
+
+![](./images/pul.PNG)
+![](./images/pul2.PNG)
+
+Open __main.py__ and write the pulumi code for provisioning the infrastructure.
