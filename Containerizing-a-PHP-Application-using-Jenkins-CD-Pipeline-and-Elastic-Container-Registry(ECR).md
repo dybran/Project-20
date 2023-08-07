@@ -193,11 +193,11 @@ To remove the network
 
 `$ docker network rm tooling_app_network`
 
-##__AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
+## __AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
 
 I will undertake the provisioning of the infrastructure through the utilization of __Terraform__. Additionally, I will demonstrate the provisioning process utilizing __Pulumi__, affording you the flexibility to select either of these Infrastructure as Code (IAC) tools.
 
-##__Provisioning the Infrastructure using Terraform__
+## __Provisioning the Infrastructure using Terraform__
 
 First, we build the AMI by utilizing the `jenkins-docker.sh` script, to prepare an AMI for the jenkins server.
 
@@ -295,7 +295,7 @@ Establish an SSH connection to the Jenkins server and proceed with the configura
 
 `$ sudo systemctl enable jenkins`
 
-##__Provisioning the Infrastructure using Pulumi__
+## __Provisioning the Infrastructure using Pulumi__
 
 Provisioning infrastructure using Pulumi involves using code to define and manage cloud resources across various cloud providers like AWS, Azure, Google Cloud, and others. Pulumi allows you to define your infrastructure as code (IaC) using your preferred programming language, such as JavaScript, TypeScript, Python, Go, and more.
 
@@ -372,6 +372,8 @@ Go to __manage jenkins > plugins__ and install the following plugins:
 - __Docker Pipeline Plugin:__ This plugin allows you to define your Jenkins pipeline using Docker commands. It integrates Docker functionality directly into your Jenkins pipeline script.
 
 - __Amazon ECR Plugin:__ This plugin provides integration with Amazon ECR. It allows you to easily push and pull Docker images to and from ECR repositories.
+
+- __Blue Ocean:__ Blue Ocean aims to simplify the way you create, visualize, and manage your Jenkins pipelines. It offers a more user-friendly and visual approach to building and monitoring pipeline workflows.
 
 ![](./images/j3.PNG)
 ![](./images/j4.PNG)
