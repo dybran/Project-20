@@ -378,3 +378,13 @@ Go to __manage jenkins > plugins__ and install the following plugins:
 
 Then got to __manage jenkins > system__ and configure the path to the __Jenkinsfile__ on the github repository.
 
+Push the jenkinsfile to github
+
+`$ git add .`
+
+`$ git commit -m "updated jenkinsfile`
+
+`$ git push`
+
+![](./images/j8.PNG)
+
