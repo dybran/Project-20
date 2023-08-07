@@ -1,73 +1,53 @@
 pipeline {
-  agent {
-    kubernetes {
-      yaml '''
-        apiVersion: v1
-        kind: Pod
-        spec:
-          containers:
-          - name: maven
-            image: maven:alpine
-            command:
-            - cat
-            tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock    
-        '''
-    }
+  agent any
+  environment {
+    registry = "939895954199.dkr.ecr.us-east-1.amazonaws.com/tooling-ecr-repo-b4b7b5b"
   }
+  
   stages {
-    stage('Clone') {
+
+    // initial cleanup of the workspace
+    stage("Initial cleanup") {
       steps {
-        container('maven') {
-          git branch: 'main', changelog: false, poll: false, url: 'https://mohdsabir-cloudside@bitbucket.org/mohdsabir-cloudside/java-app.git'
-        }
-      }
-    }  
-    stage('Build-Jar-file') {
-      steps {
-        container('maven') {
-          sh 'mvn package'
+        dir("${WORKSPACE}") {
+          deleteDir()
         }
       }
     }
-    stage('Build-Docker-Image') {
+
+
+    stage('Cloning Git') {
       steps {
-        container('docker') {
-          sh 'docker build -t dareyregistry/java-app:latest .'
+        checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/dybran/Project-20.git']]])     
+      }
+    }
+  
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry
         }
       }
     }
-    stage('Login-Into-Docker') {
-      steps {
-        container('docker') {
-          sh 'docker login -u dareyregistry -p Phartion001ng'
+   
+    // Uploading Docker images into AWS ECR
+    stage('Pushing to ECR') {
+      steps{  
+        script {
+          sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939895954199.dkr.ecr.us-east-1.amazonaws.com'
+          sh 'docker push 939895954199.dkr.ecr.us-east-1.amazonaws.com/tooling-ecr-repo-b4b7b5bt'
+        }
       }
     }
-    }
-     stage('Push-Images-Docker-to-DockerHub') {
+
+    // Clean up of workspace after build
+    stage('Clean Up') {
       steps {
-        container('docker') {
-          sh 'docker push dareyregistry/java-app:latest'
+        cleanWs(cleanWhenAborted: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, cleanWhenFailure: true)
       }
+
     }
-     }
+
   }
-    post {
-      always {
-        container('docker') {
-          sh 'docker logout'
-      }
-      }
-    }
 }

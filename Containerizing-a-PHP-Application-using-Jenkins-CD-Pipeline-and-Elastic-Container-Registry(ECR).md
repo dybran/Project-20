@@ -341,6 +341,40 @@ Now we can ssh into the jenkins-server and setup the configuration of an automat
 
 The initial step involves the installation of the __plugins__ essential for facilitating this process. This plugin installation is undertaken in conjunction with the execution of other mandatory configuration adjustments to enable the seamless operation of the intended process.
 
-The plugins to be installed include:
+Log into the jenkins server and check if jenkins, docker and AWS CLI were installed and running successfully.
 
-- 
+`$ sudo systemctl status jenkins`
+
+`$ sudo systemctl status docker`
+
+`$ aws --version`
+
+![](./images/chk1.PNG)
+![](./images/chk2.PNG)
+
+Create a project - __tooling-project__
+
+![](./images/wen.PNG)
+
+Configure the jenkins server
+![](./images/j5.PNG)
+![](./images/j6.PNG)
+![](./images/jjj.PNG)
+![](./images/j1.PNG)
+![](./images/j2.PNG)
+
+On the github repository, configure the jenkins to use webhook.
+
+![](./images/j7.PNG)
+
+Go to __manage jenkins > plugins__ and install the following plugins:
+
+- __Docker Pipeline Plugin:__ This plugin allows you to define your Jenkins pipeline using Docker commands. It integrates Docker functionality directly into your Jenkins pipeline script.
+
+- __Amazon ECR Plugin:__ This plugin provides integration with Amazon ECR. It allows you to easily push and pull Docker images to and from ECR repositories.
+
+![](./images/j3.PNG)
+![](./images/j4.PNG)
+
+Then got to __manage jenkins > system__ and configure the path to the __Jenkinsfile__ on the github repository.
+
