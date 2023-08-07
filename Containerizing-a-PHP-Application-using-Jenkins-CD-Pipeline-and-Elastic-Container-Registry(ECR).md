@@ -374,7 +374,17 @@ Go to __manage jenkins > plugins__ and install the following plugins:
 ![](./images/j3.PNG)
 ![](./images/j4.PNG)
 
-Then got to __manage jenkins > system__ and configure the path to the __Jenkinsfile__ on the github repository.
+Then open __blue ocean__ and configure jenkins server to use the repository in the github.
+
+![](./images/b1.PNG)
+
+generate an access token
+
+![](./images/b2.PNG)
+![](./images/b3.PNG)
+![](./images/b4.PNG)
+![](./images/b5.PNG)
+![](./images/b6.PNG)
 
 Push the jenkinsfile to github
 
@@ -384,5 +394,6 @@ Push the jenkinsfile to github
 
 `$ git push`
 
-![](./images/j8.PNG)
+![](./images/q11.PNG)
+![](./images/q12.PNG)
 
