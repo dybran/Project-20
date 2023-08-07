@@ -352,13 +352,9 @@ Log into the jenkins server and check if jenkins, docker and AWS CLI were instal
 ![](./images/chk1.PNG)
 ![](./images/chk2.PNG)
 
-Create a project - __tooling-project__
-
-![](./images/wen.PNG)
 
 Configure the jenkins server
-![](./images/j5.PNG)
-![](./images/j6.PNG)
+
 ![](./images/jjj.PNG)
 ![](./images/j1.PNG)
 ![](./images/j2.PNG)
