@@ -1,4 +1,4 @@
-## CONTAINERIZING A PHP APPLICATION USING JENKINS CI/CD PIPELINE AND ELASTIC CONTAINER REGISTRY (ECR).
+## __CONTAINERIZING A PHP APPLICATION USING JENKINS CI/CD PIPELINE AND ELASTIC CONTAINER REGISTRY (ECR).__
 
 To deploy many small applications such as web front-end, web-backend, processing jobs, monitoring, logging solutions, etc, some of the applications will require various OS and runtimes of different versions and conflicting dependencies – in such case you would need to spin up serves for each group of applications with the exact OS/runtime/dependencies requirements. When it scales out to tens/hundreds and even thousands of applications, this approach becomes very tedious and challenging to maintain.
 
@@ -18,19 +18,24 @@ __Prerequisites__
 - Docker installed on the machine where Jenkins is running.
 - AWS CLI installed in the jenkins server.
 
-The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD with Terraform and PAcker for infrastructure and AMI build respectively, enabling the smooth deployment of the Docker image to Amazon Elastic Container Registry (ECR).
+ The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD in conjunction with __Terraform__ and __Packer__ to leverage infrastructure provisioning and AMI build. Alternatively, __Pulumi__ is employed for infrastructure provisioning enabling the smooth deployment of the Docker image to Amazon Elastic Container Registry (ECR).
 
 __TASK__
 
+__Using Terraform__
+
 - Create the AMI for Jenkins server using Packer
-- Provision the Infrastructure for ECR and Jenkins server using Terraform. The Jenkins server will be provisioned using the AMI created.
+- Utilize Terraform to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. The Jenkins server instantiation will leverage a previously generated Amazon Machine Image (AMI) during the provisioning process.
+- Configure Jenkins to build and push docker image to ECR.
+
+__Using Pulumi__
+
+- Utilize Pulumi to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. Pulumi uses the script `jenkins-docker-setup.sh` to install jenkins and docker in the instance while provisioning.
 - Configure Jenkins to build and push docker image to ECR.
 
 Building Docker images prior to setting up the deployment pipeline for Amazon Elastic Container Registry (ECR) is considered a commendable approach from a technical standpoint. This practice ensures that the containerized applications or services are encapsulated within Docker images before they are transmitted to ECR for storage and distribution. By generating Docker images upfront, the pipeline can efficiently and reliably handle the deployment process, enabling seamless integration and automation of the containerization and delivery workflow to ECR.
 
-__Tooling Application__
-
-create an Ec2 Instance, install Docker and add the user to the docker group.
+Create an Ec2 Instance, install Docker and add the user to the docker group.
 
 `$ sudo usermod -aG docker ubuntu`
 
@@ -188,11 +193,11 @@ To remove the network
 
 `$ docker network rm tooling_app_network`
 
-__AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
+##__AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
 
 I will undertake the provisioning of the infrastructure through the utilization of __Terraform__. Additionally, I will demonstrate the provisioning process utilizing __Pulumi__, affording you the flexibility to select either of these Infrastructure as Code (IAC) tools.
 
-__Provisioning the Infrastructure using Terraform__
+##__Provisioning the Infrastructure using Terraform__
 
 First, we build the AMI by utilizing the `jenkins-docker.sh` script, to prepare an AMI for the jenkins server.
 
@@ -287,9 +292,10 @@ The resources are created.
 Establish an SSH connection to the Jenkins server and proceed with the configuration adjustments required to enable the build and push functionalities to the Elastic Container Registry (ECR)
 
 `$ sudo systemctl start jenkins`
+
 `$ sudo systemctl enable jenkins`
 
-__Provisioning the Infrastructure using Pulumi__
+##__Provisioning the Infrastructure using Pulumi__
 
 Provisioning infrastructure using Pulumi involves using code to define and manage cloud resources across various cloud providers like AWS, Azure, Google Cloud, and others. Pulumi allows you to define your infrastructure as code (IaC) using your preferred programming language, such as JavaScript, TypeScript, Python, Go, and more.
 
@@ -330,3 +336,11 @@ We can also use the link provided to see the provisioning in the pulumi console.
 ![](./images/qqaa.PNG)
 
 ![](./images/plink.PNG)
+
+Now we can ssh into the jenkins-server and setup the configuration of an automated process for Docker image building. This setup involves Jenkins being triggered to initiate a build procedure upon detecting a push event within the GitHub repository, accomplished through the utilization of a webhook mechanism.
+
+The initial step involves the installation of the __plugins__ essential for facilitating this process. This plugin installation is undertaken in conjunction with the execution of other mandatory configuration adjustments to enable the seamless operation of the intended process.
+
+The plugins to be installed include:
+
+- 

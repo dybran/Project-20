@@ -57,8 +57,7 @@ aws.ec2.RouteTableAssociation("tooling-association",
 
 
 # Create a SecurityGroup that permits HTTP and SSH ingress and unrestricted egress.
-ec2_group = aws.ec2.SecurityGroup('jenkins-secgrp',
-    vpc_id=vpc.id,
+ec2_group = aws.ec2.SecurityGroup('jenkins-secgrp', 
 	description='Enable HTTP access',
 	ingress=[
 		aws.ec2.SecurityGroupIngressArgs(
@@ -94,7 +93,7 @@ with open('jenkins-docker-setup.sh', 'r') as file:
 # Get recent Ubuntu Server 20.04 LTS image
 ami = aws.ec2.get_ami(
     most_recent="true",
-    owners=["099720109477"], # Canonical
+    owners=["099720109477"],
     filters=[
         aws.ec2.GetAmiFilterArgs(
             name="name",
