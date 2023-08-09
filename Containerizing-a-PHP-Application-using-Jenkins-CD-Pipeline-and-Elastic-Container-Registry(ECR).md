@@ -165,7 +165,7 @@ Open the __db__conn.php__ file and update the credentials to connect to the tool
 
 ![](./images/up.PNG)
 
-Environment variables are stored outside the codebase and are specific to the environment in which the application runs. The values are set on the server or in the hosting environment and are accessible by the PHP code using the _'$_ENV'__ superglobal array.
+Environment variables are stored outside the codebase and are specific to the environment in which the application runs. The values are set on the server or in the hosting environment and are accessible by the PHP code using the __'$_ENV'__ superglobal array.
 
 Run the container
 
@@ -179,7 +179,7 @@ Access the application through the browser
 
 ![](./images/brow.PNG)
 
-Dsplay the running containers for the __tooling__ application and the __toolingdb__
+Display the running containers for the __tooling__ application and the __toolingdb__
 
 `$ docker ps`
 
@@ -195,7 +195,9 @@ To remove the network
 
 ## __AUTOMATE INFRASTRUCTURE PROVISIONING UTILIZING TERRAFORM OR PULUMI__
 
-I will undertake the provisioning of the infrastructure through the utilization of __Terraform__. Additionally, I will demonstrate the provisioning process utilizing __Pulumi__, affording you the flexibility to select either of these Infrastructure as Code (IAC) tools.
+I will undertake the provisioning of the infrastructure utilizing  __Terraform__. 
+
+Additionally, I will demonstrate the provisioning process utilizing __Pulumi__, affording you the flexibility to select either of these Infrastructure as Code (IAC) tools.
 
 ## __Provisioning the Infrastructure using Terraform__
 
@@ -289,7 +291,7 @@ The resources are created.
 ![](./images/9.PNG)
 ![](./images/8.PNG)
 
-Establish an SSH connection to the Jenkins server and proceed with the configuration adjustments required to enable the build and push functionalities to the Elastic Container Registry (ECR)
+Establish an SSH connection to the Jenkins server and proceed with the configuration adjustments required to enable the build and push functionalities to the Elastic Container Registry (ECR).
 
 `$ sudo systemctl start jenkins`
 
@@ -329,7 +331,7 @@ Then run the command
 
 Select the option labeled __"Yes"__ to indicate your agreement with the allocation of resources for provisioning.
 
-![](./images/pp1.PNG)
+![](./images/sqa.PNG)
 ![](./images/pp2.PNG)
 
 We can also use the link provided to see the provisioning in the pulumi console.
