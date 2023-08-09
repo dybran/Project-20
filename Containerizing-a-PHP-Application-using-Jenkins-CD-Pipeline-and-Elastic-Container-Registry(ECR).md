@@ -334,7 +334,8 @@ Select the option labeled __"Yes"__ to indicate your agreement with the allocati
 ![](./images/sqa.PNG)
 ![](./images/pp2.PNG)
 
-We can also use the link provided to see the provisioning in the pulumi console.
+Use the displayed link to see the provisioning in the pulumi console/GUI.
+
 ![](./images/qqaa.PNG)
 
 ![](./images/plink.PNG)
