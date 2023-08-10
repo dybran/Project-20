@@ -414,7 +414,7 @@ Jenkins automatically builds and pushes the docker image to the __ECR__.
 
 When modifications are applied to the code and subsequently pushed, an automatic build is initiated. This build process not only pushes the changes to the Amazon Elastic Container Registry (ECR) but also applies versioning to the generated images.
 
-![](./images/ecrimage.PNG)
+![](./images/ecr.PNG)
 
 In builds 6 and 7, there were no alterations made to the underlying code. This means that the software codebase remained the same in both of these builds. Essentially, the developers didn't make any changes to the code during the process of creating these builds.
 
