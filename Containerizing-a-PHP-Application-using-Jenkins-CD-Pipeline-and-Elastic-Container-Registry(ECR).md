@@ -408,3 +408,14 @@ Push the jenkinsfile to github
 ![](./images/q11.PNG)
 ![](./images/q12.PNG)
 
+Jenkins automatically builds and pushes the docker image to the __ECR__.
+
+![](./images/create-pipeline1.PNG)
+
+When modifications are applied to the code and subsequently pushed, an automatic build is initiated. This build process not only pushes the changes to the Amazon Elastic Container Registry (ECR) but also applies versioning to the generated images.
+
+![](./images/ecrimage.PNG)
+
+In builds 6 and 7, there were no alterations made to the underlying code. This means that the software codebase remained the same in both of these builds. Essentially, the developers didn't make any changes to the code during the process of creating these builds.
+
+However, in build 8, there was a change in the code. This indicates that the developers introduced some modifications or updates to the software's source code before creating this particular build. The changes could be related to fixing bugs, adding new features, improving performance, or making any other adjustments deemed necessary for the software's development.
