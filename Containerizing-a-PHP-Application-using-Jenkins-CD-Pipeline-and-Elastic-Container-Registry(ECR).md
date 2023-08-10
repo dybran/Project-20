@@ -310,7 +310,7 @@ Open a terminal and create a new directory. Navigate to that directory and run t
 
 `$ pulumi new <template>`
 
-Replace <template> with the appropriate template for your chosen programming language and cloud provider. For example, to create a new python project for AWS, you would run:
+Replace __<template>__ with the appropriate template for your chosen programming language and cloud provider. For example, to create a new python project for AWS, you would run:
 
 `$ pulumi new aws-python`
 
@@ -329,7 +329,7 @@ Then run the command
 
 `$ pulumi up`
 
-Select the option labeled __"Yes"__ to indicate your agreement with the allocation of resources for provisioning.
+Select the option __"Yes"__ to indicate your agreement with the allocation of resources for provisioning.
 
 ![](./images/sqa.PNG)
 ![](./images/pp2.PNG)
@@ -340,17 +340,22 @@ Use the displayed link to see the provisioning in the pulumi console/GUI.
 
 ![](./images/plink.PNG)
 
-Now we can ssh into the jenkins-server and setup the configuration of an automated process for Docker image building. This setup involves Jenkins being triggered to initiate a build procedure upon detecting a push event within the GitHub repository, accomplished through the utilization of a webhook mechanism.
+Now we can ssh into the jenkins-server and setup the configuration of an automated process for Docker image building. This setup involves triggering jenkins to initiate a build procedure upon detecting a push event within the GitHub repository, accomplished through the utilization of a webhook mechanism.
 
-The initial step involves the installation of the __plugins__ essential for facilitating this process. This plugin installation is undertaken in conjunction with the execution of other mandatory configuration adjustments to enable the seamless operation of the intended process.
+Go to __manage jenkins > security__ and check the __enable proxy compatibility__.
 
-Log into the jenkins server and check if jenkins, docker and AWS CLI were installed and running successfully.
+![](./images/cr.PNG)
 
-`$ sudo systemctl status jenkins`
 
-`$ sudo systemctl status docker`
+Access the Jenkins server start jenkins and docker as well as verify the successful installation of Jenkins, Docker, and the AWS CLI.
+
+`$ sudo systemctl start jenkins`
+
+`$ sudo systemctl start docker`
 
 `$ aws --version`
+
+
 
 ![](./images/chk1.PNG)
 ![](./images/chk2.PNG)
@@ -366,6 +371,8 @@ On the github repository, configure the jenkins to use webhook.
 
 ![](./images/j7.PNG)
 
+The installation of the __plugins__ is essential for facilitating this process. This plugin installation is undertaken in conjunction with the execution of other mandatory configuration adjustments to enable the seamless operation of the intended process.
+
 Go to __manage jenkins > plugins__ and install the following plugins:
 
 - __Docker Pipeline Plugin:__ This plugin allows you to define your Jenkins pipeline using Docker commands. It integrates Docker functionality directly into your Jenkins pipeline script.
@@ -374,8 +381,9 @@ Go to __manage jenkins > plugins__ and install the following plugins:
 
 - __Blue Ocean:__ Blue Ocean aims to simplify the way you create, visualize, and manage your Jenkins pipelines. It offers a more user-friendly and visual approach to building and monitoring pipeline workflows.
 
-![](./images/j3.PNG)
-![](./images/j4.PNG)
+![](./images/ee1.PNG)
+![](./images/ee2.PNG)
+![](./images/ee3.PNG)
 
 Then open __blue ocean__ and configure jenkins server to use the repository in the github.
 

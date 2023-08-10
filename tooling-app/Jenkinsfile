@@ -30,6 +30,35 @@ pipeline {
         }
       }
     }
+
+    stage('Run Unit Tests') {
+      steps {
+        sh 'phpunit'
+      }
+    }
+
+    // Code analysis with sonaqube
+    stage('SonarQube Analysis') {
+      steps {
+        script {
+          def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+          withSonarQubeEnv('SonarQubeServer') {
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=src -Dsonar.tests=tests"
+          }
+        }
+      }
+    }
+
+    stage('Quality Gate') {
+      steps {
+        timeout(time: 1, unit: 'HOURS') {
+          def qg = waitForQualityGate()
+          if (qg.status != 'OK') {
+            error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
+          }
+        }
+      }
+    }
    
     // Uploading Docker images into AWS ECR
     stage('Pushing to ECR') {
