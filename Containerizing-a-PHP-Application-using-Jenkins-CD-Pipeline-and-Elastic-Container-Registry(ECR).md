@@ -14,7 +14,7 @@ This Project provides step-by-step instructions on how to containerize a PHP app
 
 __THE ARCHITECTURE__
 
-![](./images/AQS.drawio.png)
+![](./images/111222.png)
 
 __Prerequisites__
 
