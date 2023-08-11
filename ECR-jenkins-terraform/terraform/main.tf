@@ -5,9 +5,9 @@ module "VPC" {
   vpc_cidr                            = var.vpc_cidr
   enable_dns_support                  = var.enable_dns_support
   enable_dns_hostnames                = var.enable_dns_hostnames
-  # enable_classiclink                  = var.enable_classiclink
   subnet_cidr                         = var.subnet_cidr
   zone                                = var.zone
+  iam_instance_profile                = var.iam_instance_profile
 }
 
 

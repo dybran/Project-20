@@ -8,3 +8,6 @@ output "vpc_id" {
   value = aws_vpc.tooling-vpc.id
 }
 
+output "iam_instance_profile" {
+  value = aws_iam_instance_profile.ip.id
+}

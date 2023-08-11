@@ -22,11 +22,6 @@ variable "enable_dns_hostnames" {
   type = bool
 }
 
-# variable "enable_classiclink" {
-#   type = bool
-# }
-
-
 
 variable "tags" {
   description = "A mapping of tags to assign to all resources."

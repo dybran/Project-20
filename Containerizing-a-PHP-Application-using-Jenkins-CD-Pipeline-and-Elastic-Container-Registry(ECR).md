@@ -12,6 +12,10 @@ In other words, if an application is shipped as a container it has its own envir
 
 This Project provides step-by-step instructions on how to containerize a PHP application using Jenkins (CI/CD) tool and Amazon Elastic Container Registry (ECR).
 
+__THE ARCHITECTURE__
+
+![](./images/AQS.drawio.png)
+
 __Prerequisites__
 
 - A Jenkins server installed and configured. You can install Jenkins by following the official documentation - [jenkins.io](https://www.jenkins.io/doc/book/installing/)
