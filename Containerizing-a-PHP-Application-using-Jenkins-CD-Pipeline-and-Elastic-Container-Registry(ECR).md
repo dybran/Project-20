@@ -1,4 +1,4 @@
-## __CONTAINERIZING A PHP APPLICATION USING JENKINS CI/CD PIPELINE AND ELASTIC CONTAINER REGISTRY (ECR).__
+## __AUTOMATING PHP DOCKER IMAGE DEPLOYMENT TO ECR USING JENKINS AND PROVISION INFRASTRUCTURE WITH TERRAFORM/PULUMI.__
 
 To deploy many small applications such as web front-end, web-backend, processing jobs, monitoring, logging solutions, etc, some of the applications will require various OS and runtimes of different versions and conflicting dependencies – in such case you would need to spin up serves for each group of applications with the exact OS/runtime/dependencies requirements. When it scales out to tens/hundreds and even thousands of applications, this approach becomes very tedious and challenging to maintain.
 
@@ -17,6 +17,8 @@ __Prerequisites__
 - A Jenkins server installed and configured. You can install Jenkins by following the official documentation - [jenkins.io](https://www.jenkins.io/doc/book/installing/)
 - Docker installed on the machine where Jenkins is running.
 - AWS CLI installed in the jenkins server.
+- Pulumi account
+- Terraform account
 
  The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD in conjunction with __Terraform__ and __Packer__ to leverage infrastructure provisioning and AMI build. Alternatively, __Pulumi__ is employed for infrastructure provisioning enabling the smooth deployment of the Docker image to Amazon Elastic Container Registry (ECR).
 
