@@ -10,7 +10,7 @@ Containerization solves this problem. Unlike a VM, Docker allocates not the whol
 
 In other words, if an application is shipped as a container it has its own environment that is isolated, and it will always work the same way on any server that has Docker engine.
 
-This Project provides step-by-step instructions on how to containerize a PHP application using Jenkins (CI/CD) tool and Amazon Elastic Container Registry (ECR).
+This Project provides step-by-step process to Automate PHP Docker image deployment to ECR using Jenkins and provision infrastructure with __Terraform/Pulumi__.
 
 __THE ARCHITECTURE__
 
