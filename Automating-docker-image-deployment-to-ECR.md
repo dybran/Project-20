@@ -32,12 +32,12 @@ __TASK__
 __Using Terraform__
 
 - Create the AMI for Jenkins server using Packer
-- Utilize Terraform to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. The Jenkins server instantiation will leverage a previously generated Amazon Machine Image (AMI) during the provisioning process.
+- Utilize Terraform to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. The Jenkins server will leverage the AMI that was created during the provisioning process.
 - Configure Jenkins to build and push docker image to ECR.
 
 __Using Pulumi__
 
-- Utilize Pulumi to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. Pulumi uses the script `jenkins-docker-setup.sh` to install jenkins and docker in the instance while provisioning.
+- Utilize Pulumi to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. Pulumi uses the script `jenkins-docker-setup.sh` to install jenkins and docker in the instance during the provisioning process.
 - Configure Jenkins to build and push docker image to ECR.
 
 Building Docker images prior to setting up the deployment pipeline for Amazon Elastic Container Registry (ECR) is considered a commendable approach from a technical standpoint. This practice ensures that the containerized applications or services are encapsulated within Docker images before they are transmitted to ECR for storage and distribution. By generating Docker images upfront, the pipeline can efficiently and reliably handle the deployment process, enabling seamless integration and automation of the containerization and delivery workflow to ECR.
