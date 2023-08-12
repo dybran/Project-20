@@ -11,49 +11,7 @@ from pulumi import Config, Output
 repository = aws.ecr.Repository("tooling-ecr-repo")
 
 # Assign an existing keypair
-keypair_name = 'dybran-ec2'
-
-
-vpc = aws.ec2.Vpc(
-    "tooling-vpc",
-    cidr_block="10.0.0.0/16",
-    enable_dns_support=True,
-    enable_dns_hostnames=True,
-    tags={"Name": "tooling-vpc"},
-)
-
-# Create subnet in an different Availability Zones
-subnet = aws.ec2.Subnet('tooling-subnet',
-    vpc_id=vpc.id,
-    availability_zone='us-east-1a',  
-    cidr_block='10.0.1.0/24',       
-	tags={"Name": "tooling-subnet"},
-)
-
-
-# Create an Internet Gateway and attach it to the VPC
-internet_gateway = aws.ec2.InternetGateway("tooling-igw",
-    vpc_id=vpc.id,
-	tags={"Name": "tooling-IGw"},
-)
-
-
-
-# Associate the Internet Gateway with the Public Subnet
-public_route_table = aws.ec2.RouteTable("tooling-route-table",
-    vpc_id=vpc.id,
-    routes=[
-        aws.ec2.RouteTableRouteArgs(
-            cidr_block="0.0.0.0/0",
-            gateway_id=internet_gateway.id
-        )
-    ]
-)
-
-aws.ec2.RouteTableAssociation("tooling-association",
-    route_table_id=public_route_table.id,
-    subnet_id=subnet.id
-)
+keypair_name = 'jenkinskey'
 
 
 # Create a SecurityGroup that permits HTTP and SSH ingress and unrestricted egress.
@@ -132,7 +90,7 @@ instance_profile = aws.iam.InstanceProfile("jenkinsInstanceProfile", role=role.n
 
 
 # create EC2 instance for Jenkins server
-server = aws.ec2.Instance('jenkins-server', 
+server = aws.ec2.Instance('jenkins-server',
     instance_type='t2.micro',
     security_groups=[ec2_group.name],
     ami=ami.id,

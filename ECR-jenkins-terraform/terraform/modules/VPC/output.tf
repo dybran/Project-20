@@ -8,6 +8,6 @@ output "vpc_id" {
   value = aws_vpc.tooling-vpc.id
 }
 
-output "iam_instance_profile" {
-  value = aws_iam_instance_profile.ip.id
+output "instance_profile" {
+  value = aws_iam_instance_profile.jenkins-ecr-profile.id
 }

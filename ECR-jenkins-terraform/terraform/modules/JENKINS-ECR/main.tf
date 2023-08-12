@@ -6,7 +6,8 @@ resource "aws_instance" "Jenkins" {
   vpc_security_group_ids      = var.sg-jenkins
   associate_public_ip_address = true
   key_name                    = var.keypair
-  iam_instance_profile        = iam_instance_profile
+  iam_instance_profile        = var.iam_instance_profile
+
   tags = merge(
     var.tags,
     {

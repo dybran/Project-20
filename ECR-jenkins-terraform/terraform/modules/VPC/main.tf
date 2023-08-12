@@ -27,7 +27,7 @@ resource "aws_subnet" "tooling_subnet" {
 
 }
 
-# create and associaote route table
+# create and associate route table
 resource "aws_route_table" "tooling_route_table" {
   vpc_id = aws_vpc.tooling-vpc.id
 }

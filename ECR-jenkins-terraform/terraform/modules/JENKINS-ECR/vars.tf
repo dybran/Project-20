@@ -21,3 +21,7 @@ variable "tags" {
   default     = {}
 }
 
+variable "iam_instance_profile" {
+  type = string
+  description = "IAM role for ECR access"
+}

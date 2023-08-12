@@ -14,7 +14,7 @@ enable_dns_hostnames = "true"
 
 environment = "dev"
 
-ami-jenkins = "ami-085c7f8f582f6fd06"
+ami-jenkins = "ami-0f1ecf56e1866b379"
 
 keypair = "dybran-ec2"
 

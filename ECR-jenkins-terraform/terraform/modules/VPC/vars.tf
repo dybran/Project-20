@@ -23,6 +23,7 @@ variable "enable_dns_hostnames" {
 }
 
 
+
 variable "tags" {
   description = "A mapping of tags to assign to all resources."
   type        = map(string)

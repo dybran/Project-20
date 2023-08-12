@@ -7,7 +7,6 @@ module "VPC" {
   enable_dns_hostnames                = var.enable_dns_hostnames
   subnet_cidr                         = var.subnet_cidr
   zone                                = var.zone
-  iam_instance_profile                = var.iam_instance_profile
 }
 
 
@@ -26,4 +25,5 @@ module "JENKINS-ECR" {
   subnets-jenkins = module.VPC.public_subnet
   sg-jenkins    =   [module.SECGRP.jenkins-sg]
   keypair         = var.keypair
+  iam_instance_profile = module.VPC.instance_profile
 }
