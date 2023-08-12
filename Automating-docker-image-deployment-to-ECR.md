@@ -29,13 +29,13 @@ Alternatively, __Pulumi__ is employed for infrastructure provisioning enabling t
 
 __TASK__
 
-__Using Terraform__
+__Setup using Terraform__
 
 - Create the AMI for Jenkins server using Packer
 - Utilize Terraform to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. The Jenkins server will leverage the AMI that was created during the provisioning process.
 - Configure Jenkins to build and push docker image to ECR.
 
-__Using Pulumi__
+__Setup using Pulumi__
 
 - Utilize Pulumi to deploy the necessary infrastructure components for Amazon Elastic Container Registry (ECR) and a Jenkins server. Pulumi uses the script `jenkins-docker-setup.sh` to install jenkins and docker in the instance during the provisioning process.
 - Configure Jenkins to build and push docker image to ECR.
