@@ -50,12 +50,12 @@ Use the [docker documentation](https://docs.docker.com/engine/install/) to insta
 
 Log out and log in to effect the changes.
 
-Create a network:
+__Create a network:__
 
 Creating a custom network is not necessary because even if we do not create a network, Docker will use the default network for all the containers you run. 
 There are use cases where this is necessary. If there is a requirement to control the __cidr__ range of the containers running the entire application stack. This will be an ideal situation to create a network and specify the __--subnet__
 
-I will create a network with a subnet dedicated for this project and use it for both MySQL and the application so that they can connect.
+Create a network with a subnet dedicated for this project and use it for both MySQL and the application so that they can connect.
 
 `$ docker network create --subnet=10.0.0.0/24 tooling_app_network`
 
