@@ -23,11 +23,11 @@ __Prerequisites__
 - AWS CLI installed in the jenkins server.
 - Pulumi account or Terraform account.
 
-The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD in conjunction with __Terraform__ and __Packer__ to leverage infrastructure provisioning and AMI build.
+__TASK__
+
+The process involves creating a Docker image to ensure its optimal functionality and then utilizing Jenkins CI/CD in conjunction with __Terraform__ and __Packer__ to leverage infrastructure provisioning and AMI build respectively.
  
 Alternatively, __Pulumi__ is employed for infrastructure provisioning enabling the smooth deployment of the Docker image to Amazon Elastic Container Registry (ECR).
-
-__TASK__
 
 __Setup using Terraform__
 
