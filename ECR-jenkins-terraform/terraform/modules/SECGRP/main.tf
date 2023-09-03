@@ -1,4 +1,4 @@
-# # create jenkins security group
+# create jenkins security group
 
 resource "aws_security_group" "jenkins-http-ssh-sg" {
   name        = "jenkins-sg"
