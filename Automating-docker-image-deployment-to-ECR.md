@@ -138,10 +138,11 @@ __Containerizing the Tooling Application__
 
 Write the Dockerfile
 
-![](./images/ddd.PNG)
+![](./images/db.PNG)
 
-Make sure you sure in the directory that has the Dockerfile.
-i.e /home/ubuntu/tooling-2
+__N/B:__ Make sure to comment out __line 20__ in the __tooling-app/html/db_conn.php__.
+
+Make sure you are in the directory that has the Dockerfile. i.e __/home/ubuntu/tooling-2__
 
 Then run the command
 
