@@ -171,7 +171,7 @@ We can use the above to find the __servername__ and so many other information ab
 
 Open the __db__conn.php__ file and update the credentials to connect to the tooling database.
 
-![](./images/up.PNG)
+![](./images/ss.PNG)
 
 Environment variables are stored outside the codebase and are specific to the environment in which the application runs. The values are set on the server or in the hosting environment and are accessible by the PHP code using the __'$_ENV'__ superglobal array.
 
